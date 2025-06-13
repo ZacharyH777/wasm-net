@@ -1,0 +1,17 @@
+[package]
+name = "wasm-net-demo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# error handling
+anyhow = "1"
+
+# runtime engine
+wasmtime = { version = "16.0.0", features = ["component-model"] }
+
+# The trampoline
+wasm-component-trampoline = "0.1.2"
+
+# The WIT binding code
+wit-bindgen = { version = "0.42.0", features = ["macros"] }
