@@ -1,0 +1,2 @@
+cargo:rustc-link-lib=static=wit_bindgen_cabi0_42_1
+cargo:rustc-link-search=native=/mnt/e/Nix/wasm-net/calculator/target/wasm32-wasip1/release/build/wit-bindgen-rt-894cb4e74ee5131a/out
