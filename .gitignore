@@ -1,0 +1,10 @@
+# Rust build output and metadata
+target/
+**/target/
+
+# Rust package lock file
+*.lock
+
+# Rust toolchains and environment configs
+.cargo/
+.rustup/

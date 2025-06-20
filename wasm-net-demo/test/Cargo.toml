@@ -1,9 +1,0 @@
-[package]
-name = "test"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-wasmtime = { version = "32.0.0", features = ["component-model"] }
-anyhow = "1"
-wit-bindgen = { git = "https://github.com/bytecodealliance/wit-bindgen", rev = "13b0ab0338268e218134c52511ac69b113895849" }

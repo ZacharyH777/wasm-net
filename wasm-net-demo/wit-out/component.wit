@@ -1,5 +1,0 @@
-package root:component;
-
-world root {
-  export docs:adder/add@0.1.0;
-}
