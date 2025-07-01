@@ -11,6 +11,7 @@ target/
 
 # Ignore all bindings.rs files
 **/bindings.rs
+tests/src/bindings.rs
 
 # Ignore Nix flake lock files
 flake.lock
