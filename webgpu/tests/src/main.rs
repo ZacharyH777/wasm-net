@@ -3,8 +3,11 @@
 use clap::Parser;
 use std::path::PathBuf;
 
+#[cfg(feature = "primitives")]
+mod test_primitives;
 
-mod async_vec_tests;
+#[cfg(feature = "components")]
+mod test_components;
 mod state;
 
 #[derive(Parser)]
@@ -17,14 +20,13 @@ struct Opts {
 #[async_std::main]
 async fn main() -> anyhow::Result<()> {
     let opts = Opts::parse();
-    let path = opts.path;
 
-    futures::try_join!(
-        async_vec_tests::test_vec2_group(path.clone()),
-        async_vec_tests::test_vec3_group(path.clone()),
-        async_vec_tests::test_vec4_group(path)
-    )?;
+    #[cfg(feature = "primitives")]
+    test_primitives::run(opts.path).await?;
 
-    println!("\nvec2, vec3, and vec4 tests passed!");
+    #[cfg(feature = "components")]
+    test_components::run(opts.path).await?;
+
+    println!("\ntest has completed!");
     Ok(())
 }

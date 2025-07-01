@@ -15,5 +15,5 @@ package = "math:linear"
 [package.metadata.component.dependencies]
 
 [package.metadata.component.target]
-path = "../wit/primitives"
+path = "../wit/deps/math-vec"
 world = "types"

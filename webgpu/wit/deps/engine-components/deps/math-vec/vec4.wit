@@ -1,0 +1,33 @@
+package math:vec@0.1.0;
+
+interface vec4 {
+  // 4D vector using floats
+  record vec4-f32 { x: f32, y: f32, z: f32, w: f32 }
+  record vec4-f64 { x: f64, y: f64, z: f64, w: f64 }
+
+  // 4D vector using signed integers
+  record vec4-s8  { x: s8,  y: s8,  z: s8,  w: s8  }
+  record vec4-s16 { x: s16, y: s16, z: s16, w: s16 }
+  record vec4-s32 { x: s32, y: s32, z: s32, w: s32 }
+  record vec4-s64 { x: s64, y: s64, z: s64, w: s64 }
+
+  // 4D vector using unsigned integers
+  record vec4-u8  { x: u8,  y: u8,  z: u8,  w: u8  }
+  record vec4-u16 { x: u16, y: u16, z: u16, w: u16 }
+  record vec4-u32 { x: u32, y: u32, z: u32, w: u32 }
+  record vec4-u64 { x: u64, y: u64, z: u64, w: u64 }
+
+  // Constructors
+  float32: func() -> vec4-f32;
+  float64: func() -> vec4-f64;
+
+  int8:    func() -> vec4-s8;
+  int16:   func() -> vec4-s16;
+  int32:   func() -> vec4-s32;
+  int64:   func() -> vec4-s64;
+
+  uint8:   func() -> vec4-u8;
+  uint16:  func() -> vec4-u16;
+  uint32:  func() -> vec4-u32;
+  uint64:  func() -> vec4-u64;
+}

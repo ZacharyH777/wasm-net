@@ -14,7 +14,7 @@ impl Transform for Component {
         Transform3d {
             position:   vec3f(),
             rotation:   vec3f(),
-            quaterion:  vec4f(),
+            quaternion:  vec4f(),
             scale:      vec3f(),
         }
     }

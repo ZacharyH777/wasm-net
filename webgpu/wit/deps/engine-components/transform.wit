@@ -1,0 +1,14 @@
+package engine:components@0.1.0;
+
+interface transform {
+    use math:vec/vec3@0.1.0.{vec3-f32};
+    use math:vec/vec4@0.1.0.{vec4-f32};
+    record transform3d {
+        position: vec3-f32,
+        rotation: vec3-f32,
+        quaterion: vec4-f32,
+        scale: vec3-f32
+    }
+    
+    build3d: func() -> transform3d;
+}

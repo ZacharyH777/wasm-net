@@ -1,5 +1,5 @@
 use wasmtime::component::ResourceTable;
-use wasmtime_wasi::{WasiCtx, WasiCtxBuilder, WasiView};
+use wasmtime_wasi::p2::{WasiCtx, WasiCtxBuilder, WasiView, IoView};
 
 pub struct States {
     table: ResourceTable,
@@ -17,11 +17,13 @@ impl States {
 }
 
 impl WasiView for States {
-    fn table(&mut self) -> &mut ResourceTable {
-        &mut self.table
-    }
-
     fn ctx(&mut self) -> &mut WasiCtx {
         &mut self.ctx
+    }
+}
+
+impl IoView for States {
+    fn table(&mut self) -> &mut ResourceTable {
+        &mut self.table
     }
 }

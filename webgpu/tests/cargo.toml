@@ -1,18 +1,22 @@
 [package]
 name = "tests"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 description = """
-Example Rust-based WebAssembly host that executes WebAssembly components
+Host Component For Tests On wasm interfaces and functions
 """
 
 [dependencies]
-anyhow = "1.0.72"
+anyhow = "1.0.98"
 async-std = { version = "1.13", features = ["attributes"] }
-clap = { version = "4", features = ["derive"] }
-wasmtime = "27.0"
-wasmtime-wasi = "27.0"
+clap = { version = "4.5.40", features = ["derive"] }
+wasmtime = "33.0"
+wasmtime-wasi = "33.0"
 futures = "0.3.31"
 
 [package.metadata.component.target]
-path = "../wit/primitives"
+path = "../wit/deps/math-vec"
+
+[features]
+primitives = []
+components = []

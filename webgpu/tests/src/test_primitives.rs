@@ -7,16 +7,28 @@ use wasmtime::component::{Component, Linker};
 
 use crate::state::States;
 
+#[cfg(feature = "primitives")]
 mod bindings {
     wasmtime::component::bindgen!({
-        path: "../wit/primitives/world.wit",
+        path: "../wit/deps/math-vec",
         world: "types",
         async: true
     });
 }
 
-pub async fn test_vec2_group(path: PathBuf) -> anyhow::Result<()> {
+pub async fn run(path: PathBuf) -> anyhow::Result<()> {
     let (mut store, instance) = setup_instance(&path).await?;
+
+    test_vec2_group(&mut store, &instance).await?;
+    test_vec3_group(&mut store, &instance).await?;
+    test_vec4_group(&mut store, &instance).await?;
+
+    println!("\nprimitives tests passed!");
+    Ok(())
+}
+
+async fn test_vec2_group(mut store: &mut Store<States>,
+    instance: &bindings::Types,) -> anyhow::Result<()> {
     let vec2 = instance.math_vec_vec2();
 
     assert_eq!(vec2.call_float32(&mut store).await?.x, 0.0);
@@ -34,8 +46,8 @@ pub async fn test_vec2_group(path: PathBuf) -> anyhow::Result<()> {
     Ok(())
 }
 
-pub async fn test_vec3_group(path: PathBuf) -> anyhow::Result<()> {
-    let (mut store, instance) = setup_instance(&path).await?;
+async fn test_vec3_group(mut store: &mut Store<States>,
+    instance: &bindings::Types,) -> anyhow::Result<()> {
     let vec3 = instance.math_vec_vec3();
 
     assert_eq!(vec3.call_float32(&mut store).await?.z, 0.0);
@@ -53,8 +65,8 @@ pub async fn test_vec3_group(path: PathBuf) -> anyhow::Result<()> {
     Ok(())
 }
 
-pub async fn test_vec4_group(path: PathBuf) -> anyhow::Result<()> {
-    let (mut store, instance) = setup_instance(&path).await?;
+async fn test_vec4_group(mut store: &mut Store<States>,
+    instance: &bindings::Types,) -> anyhow::Result<()> {
     let vec4 = instance.math_vec_vec4();
 
     assert_eq!(vec4.call_float32(&mut store).await?.w, 0.0);
@@ -80,7 +92,7 @@ async fn setup_instance(path: &PathBuf) -> anyhow::Result<(
     let engine = Engine::new(&config)?;
     let component = Component::from_file(&engine, path)?;
     let mut linker = Linker::new(&engine);
-    wasmtime_wasi::add_to_linker_async(&mut linker)?;
+    wasmtime_wasi::p2::add_to_linker_async(&mut linker)?;
 
     let mut store = Store::new(&engine, States::new());
     let instance = bindings::Types::instantiate_async(&mut store, &component, &mut linker).await?;

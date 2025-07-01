@@ -1,83 +1,85 @@
 {
-  description = "Rustup-managed WebGPU/WIT/WASM dev shell with platform-aware Nix flake";
+  description = "Rustup-free WebGPU/WIT/WASM dev shell with WAC, WKG, and wasm32-wasip2 support";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    fenix.url = "github:nix-community/fenix";
   };
 
-  # Modern flake project, so no flake-compat
-  # Not sure if I want to deal with webgpu and older comps 
-
-  # Spreading still confusing, From what I know it makes the flake extenable
-  # Take in more than just what I declare
-  outputs = { self, nixpkgs, flake-utils, ... }: 
-    # not sure if any others are supported
-    # want to try make to make sure it works with this too
-    let
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-darwin"
-      ];
-
-      eachSystem = flake-utils.lib.eachSystem supportedSystems;
-    in
-
-    #Go through a list of all supported supported Systems
-    #This way can keep track of what is or is not supported
-    eachSystem (system:
-    #Version change in nix pakages. Meaning nix setup can be different 
+  outputs = { self, nixpkgs, flake-utils, fenix, ... }:
+    flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-darwin" ] (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        overlays = [
+          (final: prev: {
+            wac = prev.rustPlatform.buildRustPackage (finalAttrs: {
+              pname = "wac";
+              version = "0.7.0-pre";
+
+              src = prev.fetchFromGitHub {
+                owner = "bytecodealliance";
+                repo = "wac";
+                rev = "9de558adfaee43d29b792bcef8a13e480cc2717d";
+                hash = "sha256-iu81B4AXEwH8RLRK0AxciVP4kzdGpVLY2hjS19oG+58=";
+              };
+
+              cargoHash = "sha256-vzuZpdkcd3yv+io7acGwIMTQw/muDtt4ZQC95Mm6Xiw=";
+
+              passthru.updateScript = prev.nix-update-script { };
+
+              meta = {
+                description = "WebAssembly Composition CLI (unreleased)";
+                homepage = "https://github.com/bytecodealliance/wac";
+                license = prev.lib.licenses.asl20;
+                maintainers = with prev.lib.maintainers; [ ];
+                mainProgram = "wac";
+              };
+            });
+          })
+        ];
+
+        pkgs = import nixpkgs {
+          inherit system overlays;
+        };
+
+        toolchain = fenix.packages.${system}.stable.withComponents [
+          "cargo"
+          "rustc"
+          "rust-analyzer"
+          "rustfmt"
+          "llvm-tools-preview"
+        ];
+
+        rust = fenix.packages.${system}.combine [
+          toolchain
+          fenix.packages.${system}.targets.wasm32-wasip2.stable.rust-std
+          fenix.packages.${system}.targets.wasm32-wasip1.stable.rust-std
+        ];
       in {
         devShells.default = pkgs.mkShell {
           name = "webgpu-wit-shell";
 
           buildInputs = [
-            pkgs.rustup
-            pkgs.cargo
-            pkgs.cargo-component
+            rust
+            pkgs.wac
+            pkgs.wkg
             pkgs.wasm-tools
-
-            pkgs.pkg-config
-            pkgs.openssl
-            pkgs.wasm-pack
             pkgs.wasmtime
+            pkgs.wasm-pack
+            pkgs.cargo-component
             pkgs.clang
             pkgs.llvmPackages.bintools
+            pkgs.pkg-config
+            pkgs.openssl
+            pkgs.docker
             pkgs.nixfmt-rfc-style
             pkgs.protobuf
             pkgs.nodejs_20
           ];
-
-          # Not sure about rustc can't test on other machine
-          # Might be able to just pin it but this makes it easier
-          # for now
-
-
-          # Flakes feel like they should not do this
-          # Am I doing this wrong, To refer back too:
-          # https://nix.dev/manual/nix/2.28/command-ref/nix-shell.html
-          shellHook = ''
-            echo " WebGPU, WIT, wasm dev shell"
-            export RUSTUP_HOME="$PWD/.rustup"
-            export CARGO_HOME="$PWD/.cargo"
-
-            rustup install nightly-2025-06-16
-            rustup default nightly-2025-06-16
-
-            #Rustup will automatically target system based wasm
-            #But since most of it is a lib we want it to be cross compatible
-            #This does not work for tests/errn though. So note what to compile 
-            rustup target add wasm32-unknown-unknown
-
-            #wac-cli doesn't have a nix packages
-            #but is required for this project
-            cargo install wac-cli
-          '';
         };
 
-        #I will look into buildable packages when needed
-      }
-    );
+        packages.${system}.wac = pkgs.wac;
+        defaultPackage.${system} = pkgs.wac;
+      });
+
 }

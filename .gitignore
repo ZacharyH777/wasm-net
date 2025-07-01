@@ -8,3 +8,12 @@ target/
 # Rust toolchains and environment configs
 .cargo/
 .rustup/
+
+# Ignore all bindings.rs files
+**/bindings.rs
+
+# Ignore Nix flake lock files
+flake.lock
+**/flake.lock
+
+**/*.wasm

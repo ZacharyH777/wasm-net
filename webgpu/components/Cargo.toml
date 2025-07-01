@@ -13,10 +13,10 @@ package = "engine:components"
 crate-type = ["cdylib"]
 
 [package.metadata.component.target]
-path = "../wit/engine/components/0.1.0"
+path = "../wit/deps/engine-components"
 world = "components"
 
 [package.metadata.component.target.dependencies]
-"math:vec" = { path = "../wit/math/vec/0.1.0" }
+"math:vec" = { path = "../wit/deps/engine-components/deps/math-vec" }
 
 [package.metadata.component.dependencies]

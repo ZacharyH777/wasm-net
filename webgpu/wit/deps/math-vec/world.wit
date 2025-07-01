@@ -1,0 +1,8 @@
+package math:vec@0.1.0;
+
+world types {
+  
+  export vec2;
+  export vec3;
+  export vec4;
+}
