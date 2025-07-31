@@ -17,7 +17,7 @@ interface vec4 {
   record vec4-u32 { x: u32, y: u32, z: u32, w: u32 }
   record vec4-u64 { x: u64, y: u64, z: u64, w: u64 }
 
-  // Constructors
+  // Constructors for vec4
   float32: func() -> vec4-f32;
   float64: func() -> vec4-f64;
 

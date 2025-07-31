@@ -1,0 +1,10 @@
+[package]
+name = "gpu_stub"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+libc = "0.2.174"
+
+[lib]
+crate-type = ["cdylib"]

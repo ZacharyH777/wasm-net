@@ -4,12 +4,8 @@ use clap::Parser;
 use std::path::PathBuf;
 
 // --feature primitives
-#[cfg(feature = "primitives")]
-mod test_primitives;
-
-// --feature components
-#[cfg(feature = "components")]
-mod test_components;
+#[cfg(feature = "networking")]
+mod test_networking;
 
 mod state;
 
@@ -23,11 +19,9 @@ struct Opts {
 async fn main() -> anyhow::Result<()> {
     let opts = Opts::parse();
 
-    #[cfg(feature = "primitives")]
-    test_primitives::run(opts.path).await?;
+    #[cfg(feature = "networking")]
+    test_networking::run(opts.path).await?;
 
-    #[cfg(feature = "components")]
-    test_components::run(opts.path).await?;
 
     println!("\nTest has completed!");
     Ok(())

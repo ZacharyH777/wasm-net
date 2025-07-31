@@ -54,6 +54,7 @@
           toolchain
           fenix.packages.${system}.targets.wasm32-wasip2.stable.rust-std
           fenix.packages.${system}.targets.wasm32-wasip1.stable.rust-std
+          fenix.packages.${system}.targets.wasm32-unknown-unknown.stable.rust-std
         ];
       in {
         devShells.default = pkgs.mkShell {
@@ -75,11 +76,11 @@
             pkgs.nixfmt-rfc-style
             pkgs.protobuf
             pkgs.nodejs_20
+            pkgs.oras
           ];
         };
 
-        packages.${system}.wac = pkgs.wac;
+        packages.${system}.jco = pkgs.jco;
         defaultPackage.${system} = pkgs.wac;
       });
-
 }

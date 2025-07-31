@@ -1,0 +1,59 @@
+package wgpu:renderer@0.1.0;
+
+interface gpucontext {
+
+  enum trace {
+    disabled,
+    enabled,
+  }
+  record renderer-config {
+    width: u32,
+    height: u32,
+    canvas-width: u32,
+    canvas-height: u32,
+    title: string,
+
+    device: devicedescriptor,
+
+    power-preference: u8,             
+    force-fallback-adapter: bool,
+
+    backend: u8,                       
+
+    present-mode: u8,
+    use-vsync: bool,
+    allow-hdr: bool,
+
+    enable-logging: bool,
+    dpi-scale: f32,
+  }
+
+  record devicedescriptor {
+    label: string,
+    required-features: list<string>,
+    required-limits: limits,
+    memory-hints: memoryhints,
+    trace: trace,
+  }
+
+  record limits {
+    max-bind-groups: u32,
+    max-dynamic-uniform-buffers-per-pipeline-layout: u32,
+    max-dynamic-storage-buffers-per-pipeline-layout: u32,
+    max-sampled-textures-per-shader-stage: u32,
+    max-samplers-per-shader-stage: u32,
+    max-storage-buffers-per-shader-stage: u32,
+    max-uniform-buffers-per-shader-stage: u32,
+    max-uniform-buffer-binding-size: u64,
+    max-storage-buffer-binding-size: u64,
+    max-buffer-size: u64,
+  }
+
+  record memoryhints {
+    max-allocation-size: u64,
+    non-coherent-atom-size: u64,
+  }
+
+  type path = string;
+  init: func();
+}
