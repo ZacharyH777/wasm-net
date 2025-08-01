@@ -1,19 +1,23 @@
 
 
 [package]
-name = "networking_core"
+name = "networking_server"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 wit-bindgen-rt = { version = "0.43.0", features = ["bitflags"] }
+async-std = { version = "1.12", features = ["attributes"] }
 wasi = "0.12.0"
 
 [lib]
 crate-type = ["cdylib"]
 
 [package.metadata.component]
-package = "component:networking-core"
-target = "component:networking-core@0.1.0"
+package = "component:networking-server"
+target.package = "component:networking-server"
+target.version = "0.1.0"
+target.world = "server-rust"
+
 
 [package.metadata.component.dependencies]

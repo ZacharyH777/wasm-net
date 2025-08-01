@@ -3,9 +3,8 @@
 use clap::Parser;
 use std::path::PathBuf;
 
-// --feature primitives
-#[cfg(feature = "networking")]
-mod test_networking;
+#[cfg(feature = "host-networking")]
+mod host_networking;
 
 mod state;
 
@@ -19,10 +18,13 @@ struct Opts {
 async fn main() -> anyhow::Result<()> {
     let opts = Opts::parse();
 
-    #[cfg(feature = "networking")]
-    test_networking::run(opts.path).await?;
+    #[cfg(feature = "host-networking")]
+    host_networking::run(opts.path).await?;
 
+    println!("\n\nServer is running. Press ENTER to stop.\n\n");
+    let mut input = String::new();
+    std::io::stdin().read_line(&mut input)?;
 
-    println!("\nTest has completed!");
+    println!("Server is now shutting down!");
     Ok(())
 }

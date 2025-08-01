@@ -1,21 +1,28 @@
 [package]
-name = "tests"
+name = "Rust-Networking-Host"
 version = "0.1.0"
 edition = "2024"
 description = """
 Host component for tests On wasm interfaces and functions
 """
 
+[profile.dev]
+opt-level = 1
+debug = true
+codegen-units = 256
+incremental = true
+
 [dependencies]
 anyhow = "1.0.98"
 async-std = { version = "1.13", features = ["attributes"] }
-clap = { version = "4.5.40", features = ["derive"] }
+clap = { version = "4.5", default-features = false, features = ["derive", "std"] }
 wasmtime = "33.0"
 wasmtime-wasi = "33.0"
 futures = "0.3.31"
+async-channel = "2.5.0"
 
 [package.metadata.component.target]
 
 [features]
-networking = []
+host-networking = []
 components = []

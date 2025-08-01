@@ -1,0 +1,25 @@
+
+
+[package]
+name = "networking_server"
+version = "0.1.1"
+edition = "2024"
+
+[dependencies]
+wit-bindgen-rt = { version = "0.43.0", features = ["bitflags"] }
+wasi = "0.12.0"
+bincode = { version = "2.0.1", features = ["std"] }
+serde = { version = "1.0.219", features = ["derive"] }
+lz4_flex = "0.11.5"
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.component]
+package = "component:networking-server"
+target.package = "component:networking-server"
+target.version = "0.1.1"
+target.world = "server-rust"
+
+
+[package.metadata.component.dependencies]
