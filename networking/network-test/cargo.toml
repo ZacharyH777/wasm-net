@@ -1,5 +1,5 @@
 [package]
-name = "Rust-Networking-Host"
+name = "Rust-Networking"
 version = "0.1.0"
 edition = "2024"
 description = """
@@ -25,4 +25,14 @@ async-channel = "2.5.0"
 
 [features]
 host-networking = []
-components = []
+client-networking = []
+
+[[bin]]
+name = "network-server"
+path = "./src/bin/server.rs"
+required-features = ["host-networking"]
+
+[[bin]]
+name = "network-client"
+path = "./src/bin/client.rs"
+required-features = ["client-networking"]

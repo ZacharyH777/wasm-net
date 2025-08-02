@@ -1,6 +1,6 @@
-package component:networking-server@0.1.1;
+package component:networking-server@0.1.121;
 
 world server-rust {
-  export handle-packet: func(data: list<u8>) -> list<u8>;
-  export spawn-client: func(id: u32) -> list<u8>;
+  export packets;
+  export packet-manager;
 }
