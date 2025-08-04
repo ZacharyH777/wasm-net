@@ -9,6 +9,7 @@
 
   outputs = { self, nixpkgs, flake-utils, fenix, ... }:
     flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-darwin" ] (system:
+      # Keeping overlay for now
       let
         overlays = [
           (final: prev: {

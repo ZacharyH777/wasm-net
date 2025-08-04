@@ -5,3 +5,5 @@ pub mod host_networking;
 pub mod client_networking;
 
 pub mod state;
+
+pub mod protocols;

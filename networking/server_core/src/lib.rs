@@ -140,10 +140,10 @@ impl ServerGuest for Component {
                 1 => {
                     let (client_msg, _) = decode_from_slice::<ClientMessage, _>(payload, standard())
                         .expect("Failed to decode ClientMessage");
-                    println!("[from {from_id} -> to {to_id}] {}", client_msg.content);
+                    println!("[{from_id} -> {to_id}] {}", client_msg.content);
                 }
                 _ => {
-                    println!("[from {from_id} -> to {to_id}] Unknown type: {type_id}");
+                    println!("[{from_id} -> {to_id}] Unknown type: {type_id}");
                 }
             }
         }
