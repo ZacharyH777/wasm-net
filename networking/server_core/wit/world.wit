@@ -1,6 +1,0 @@
-package component:networking-server@0.1.121;
-
-world server-rust {
-  export packets;
-  export packet-manager;
-}
